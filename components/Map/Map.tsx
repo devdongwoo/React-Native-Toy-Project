@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Platform, PermissionsAndroid} from 'react-native';
 
+import Config from 'react-native-config';
 import Geolocation from 'react-native-geolocation-service';
 
 interface IPosition {
