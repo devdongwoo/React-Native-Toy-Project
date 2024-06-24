@@ -1,34 +1,35 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Platform, PermissionsAndroid} from 'react-native';
+import {View, Platform, PermissionsAndroid} from 'react-native';
 
-import Config from 'react-native-config';
 import Geolocation from 'react-native-geolocation-service';
+import KakaoMap from './Kakao/KakaoMap';
+import Blank from './Blank/Blank';
 
 interface IPosition {
   [name: string]: any;
 }
 
 export default function Map() {
-  const [position, setPosition] = useState<IPosition>({});
+  const [position, setPosition] = useState<IPosition>({
+    latitude: 0,
+    longitude: 0,
+    show: false,
+  });
 
   const getPosition = () => {
-    Geolocation.getCurrentPosition(
+    Geolocation.watchPosition(
       position => {
         const {latitude, longitude} = position.coords;
 
         setPosition(() => {
-          return {latitude, longitude};
+          return {latitude, longitude, show: true};
         });
-
-        console.log(latitude, longitude, 123);
       },
       err => {
         console.log(err.code, err.message);
       },
       {
         enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0,
         distanceFilter: 1,
       },
     );
@@ -58,7 +59,12 @@ export default function Map() {
 
   return (
     <View>
-      <Text>지도입니다.</Text>
+      {position.show ? (
+        <KakaoMap latitude={position.latitude} longitude={position.longitude} />
+      ) : (
+        <Blank />
+      )}
+      <Blank />
     </View>
   );
 }
