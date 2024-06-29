@@ -1,4 +1,4 @@
-const FRIENDS = [
+const USERS = [
   {
     id: 1,
     name: '유재석',
@@ -40,3 +40,5 @@ const FRIENDS = [
     name: '바이든',
   },
 ];
+
+export default USERS;

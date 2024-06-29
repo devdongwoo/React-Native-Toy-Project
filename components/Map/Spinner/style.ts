@@ -1,10 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {
-  fontScale,
-  horizontalScale,
-  verticalScale,
-} from '../../../assets/style/scaling';
-import {fontFamilyScale} from '../../../assets/style/globalStyle';
+import {horizontalScale, verticalScale} from '../../../assets/style/scaling';
 
 const style = StyleSheet.create({
   container: {
@@ -15,13 +10,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: horizontalScale(6),
-    backgroundColor: 'transparent',
-  },
-  innerText: {
-    position: 'absolute',
-    color: '#fff',
-    fontFamily: fontFamilyScale('NanumGothic', 600),
-    fontSize: fontScale(16),
+    borderWidth: 0.3,
   },
 });
 

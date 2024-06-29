@@ -5,19 +5,16 @@ import {View, Text} from 'react-native';
 import style from './style';
 import {LinearGradient} from 'react-native-gradients';
 
-export default function Blank() {
+const colorList = [
+  {offset: '73%', color: '#64e8db', opacity: '1'},
+  {offset: '27%', color: '#8a64eb', opacity: '1'},
+];
+
+export default function Spinner() {
   return (
-    <View style={style.container}>
-      <LinearGradient
-        colorList={[
-          {offset: '0%', color: '#231557', opacity: '1'},
-          {offset: '29%', color: '#44107A', opacity: '1'},
-          {offset: '67%', color: '#FF1361', opacity: '1'},
-          {offset: '100%', color: '#FFF800', opacity: '1'},
-        ]}
-        angle={90}
-      />
-      <Text>지도를 가져올 수가 없어요.😮</Text>
+    <View style={[style.container]}>
+      <LinearGradient angle={148} colorList={colorList} />
+      <Text style={style.innerText}>지도를 가져올 수가 없어요.😮</Text>
     </View>
   );
 }

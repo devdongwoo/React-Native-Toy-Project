@@ -1,8 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {View, Platform, PermissionsAndroid} from 'react-native';
+import {
+  View,
+  Platform,
+  PermissionsAndroid,
+  ActivityIndicator,
+} from 'react-native';
 
 import Geolocation from 'react-native-geolocation-service';
+
 import KakaoMap from './Kakao/KakaoMap';
+import Spinner from './Spinner/Spinner';
 import Blank from './Blank/Blank';
 
 interface IPosition {
@@ -14,6 +21,7 @@ export default function Map() {
     latitude: 0,
     longitude: 0,
     show: false,
+    visible: true,
   });
 
   const getPosition = () => {
@@ -22,10 +30,13 @@ export default function Map() {
         const {latitude, longitude} = position.coords;
 
         setPosition(() => {
-          return {latitude, longitude, show: true};
+          return {latitude, longitude, show: true, visible: true};
         });
       },
       err => {
+        setPosition(prev => {
+          return {...prev, show: false, visible: false};
+        });
         console.log(err.code, err.message);
       },
       {
@@ -48,10 +59,16 @@ export default function Map() {
           if (res === 'granted') {
             getPosition();
           } else {
+            setPosition(prev => {
+              return {...prev, show: false, visible: false};
+            });
             console.log(`Don't allow`);
           }
         })
         .catch(err => {
+          setPosition(prev => {
+            return {...prev, show: false, visible: false};
+          });
           console.log(err);
         });
     }
@@ -61,10 +78,11 @@ export default function Map() {
     <View>
       {position.show ? (
         <KakaoMap latitude={position.latitude} longitude={position.longitude} />
+      ) : position.visible ? (
+        <Spinner />
       ) : (
         <Blank />
       )}
-      <Blank />
     </View>
   );
 }

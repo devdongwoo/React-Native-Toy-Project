@@ -47,7 +47,7 @@ export default function KakaoMap({latitude, longitude}: IKakaoMap) {
       style={{
         width: horizontalScale(300),
         height: verticalScale(300),
-        marginTop: verticalScale(42),
+        marginTop: verticalScale(22),
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
