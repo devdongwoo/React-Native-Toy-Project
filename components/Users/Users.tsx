@@ -2,14 +2,15 @@ import React, {useState, useCallback, useEffect} from 'react';
 
 import {View, Text, FlatList, Image} from 'react-native';
 
+import {useQuery} from '@tanstack/react-query';
+
+import {getUsers} from '../../axios/axios';
+
 import style from './style';
+import Skeleton from '../Skeleton/Skeleton';
 
-import USERS from '../../mock/mockapi';
-import {GET} from '../../axios/axios';
-
-interface ItemData {
-  [key: string]: string | number | {[key: string]: string};
-}
+import {ItemData} from '../../type/type';
+import pagination from '../common/pagination';
 
 function UserList({item}: {item: ItemData}) {
   return (
@@ -27,20 +28,22 @@ function UserList({item}: {item: ItemData}) {
 export default function Users() {
   const [user, setUser] = useState<Array<ItemData>>();
 
-  const getUser = useCallback(async () => {
-    const res = await GET();
-    setUser(res);
-  }, []);
+  const [item, setItem] = useState(5);
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  const {status, data, error, isLoading} = useQuery({
+    queryKey: ['users', item],
+    queryFn: getUsers,
+  });
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
 
   return (
     <View>
       <FlatList
         horizontal={true}
-        data={user}
+        data={data}
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         renderItem={({item}: {item: ItemData}) => {
